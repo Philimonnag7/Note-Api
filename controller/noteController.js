@@ -57,6 +57,16 @@ exports.getNote = (req, res) => {
 exports.updateNote = (req, res) => {
     
 }
-exports.deleteNote = (req, res) => {
+exports.deleteNote = async (req, res) => {
+    try {
+        const note = await Note.deleteOne({ "_id": req.params.id }); 
+        res.status(200).json({
+            status: 1,
+            message:"Node deleted"
+        })
+    } catch (error) {
+        
+    }
+    
     
 }
