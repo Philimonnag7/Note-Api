@@ -47,25 +47,56 @@ exports.createNote = async (req, res) => {
 }
 exports.getNote = (req, res) => {
     try {
-        const note=Note.findById(req.params.id)
+        const note = Note.findById(req.params.id);
+        res.status(200).json({
+            status: 1,
+            message: "Updated Successfully",
+            result: note
+        });
     } catch (error) {
-        
+        res.status(400).json({
+            status: 0,
+            message: "Failed",
+            result: err.message
+        }); 
     }
     
 }
 
-exports.updateNote = (req, res) => {
+exports.updateNote = async (req, res) => {
+    try {
+    const newNote= await Note.findByIdAndUpdate(req.params.id, req.body, { new: true }); 
+    
+        res.status(200).json({
+            status: 1,
+            message: "Updated Successfully",
+            result: newNote
+        });
+    
+    } catch (error) {
+        res.status(400).json({
+            status: 0,
+            message: "Failed",
+            result: err.message
+        });
+    }
     
 }
 exports.deleteNote = async (req, res) => {
     try {
-        const note = await Note.deleteOne({ "_id": req.params.id }); 
+        const note = await Note.findByIdAndDelete(req.params.id ); 
         res.status(200).json({
             status: 1,
-            message:"Node deleted"
+            message:"Note deleted"
         })
     } catch (error) {
         
+        res.status(404).json({
+            status: 0,
+            message: "Fail",
+            result:error.message
+            
+        })
     }
     
     
