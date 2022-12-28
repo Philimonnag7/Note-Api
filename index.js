@@ -2,6 +2,12 @@ const express = require("express");
 require("dotenv").config();
 const app = express();
 const mongoose = require("mongoose");
+const cors = require('cors');
+
+app.use(cors({
+    origin: '*',
+    allowedHeaders: 'X-Requested-With, Content-Type, auth-token',
+}));
 
 const port = process.env.port || 8000;
 
